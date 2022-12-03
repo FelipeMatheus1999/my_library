@@ -27,6 +27,18 @@ compile:
 	pip-compile requirements/dev.in
 	pip-compile requirements/test.in
 
+migrations:
+	@echo "--> Make Migrations..."
+	docker-compose run app python manage.py makemigrations
+
+migrate:
+	@echo "--> Make Migrations..."
+	docker-compose run app python manage.py migrate
+
+superuser:
+	@echo "--> Make Super User..."
+	docker-compose run app python manage.py createsuperuser
+
 run:
 	@echo "--> Starting server in port 8000..."
 	docker-compose up
@@ -37,5 +49,11 @@ shell:
 
 test:
 	@echo "--> Running tests..."
-	docker-compose run app pytest -s -v --disable-warnings
+	docker-compose run app $(path) pytest -s -v --disable-warnings
+	docker-compose down
+
+test-no-cache:
+	docker-compose run app bash -c "rm -rf .pytest_cache"
+	@echo "--> Running tests..."
+	docker-compose run app $(path) pytest -s -v --disable-warnings
 	docker-compose down

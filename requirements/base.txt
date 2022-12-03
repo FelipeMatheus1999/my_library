@@ -6,13 +6,15 @@
 #
 asgiref==3.5.2
     # via django
-django==4.1.3
+django==3.2.16
     # via
     #   -r requirements/base.in
     #   djangorestframework
 djangorestframework==3.14.0
     # via -r requirements/base.in
 pytz==2022.6
-    # via djangorestframework
+    # via
+    #   django
+    #   djangorestframework
 sqlparse==0.4.3
     # via django

@@ -34,3 +34,6 @@ class TestBaseModel:
 
     def test_meta_abstract(self):
         assert self.model._meta.abstract is True
+
+    def test_length_fields(self):
+        assert len(self.model._meta.fields) == 3

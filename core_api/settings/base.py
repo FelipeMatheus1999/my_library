@@ -10,6 +10,8 @@ DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = "user.UserModel"
+
 DJANGO_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -18,10 +20,8 @@ DJANGO_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 ]
-
 THIRD_APPS = ["rest_framework", "rest_framework.authtoken"]
-
-LOCAL_APPS = []
+LOCAL_APPS = ["apps.user"]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_APPS + LOCAL_APPS
 
