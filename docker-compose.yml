@@ -1,5 +1,18 @@
 version: "3.7"
 services:
+  app:
+    build: .
+    env_file: .env
+    tty: true
+    command:
+      bash -c 'python manage.py runserver 0.0.0.0:8000'
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+
   db:
     image: postgres
     healthcheck:
@@ -13,18 +26,6 @@ services:
       - my_library_db:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-
-  app:
-    build: .
-    env_file: .env
-    command:
-      bash -c 'python manage.py runserver 0.0.0.0:8000'
-    depends_on:
-      - db
-    ports:
-      - "8000:8000"
-    volumes:
-      - .:/app
 
 volumes:
     my_library_db:

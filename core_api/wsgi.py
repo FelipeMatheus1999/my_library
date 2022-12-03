@@ -1,16 +1,10 @@
-"""
-WSGI config for core_api project.
-
-It exposes the WSGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/4.1/howto/deployment/wsgi/
-"""
-
 import os
 
+from decouple import config as env
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core_api.settings")
+os.environ.setdefault(
+    "DJANGO_SETTINGS_MODULE", f"core_api.settings.{env('ENVIRONMENT')}"
+)
 
 application = get_wsgi_application()

@@ -28,5 +28,14 @@ compile:
 	pip-compile requirements/test.in
 
 run:
-	@echo "--> Starting server. in port 8000..."
+	@echo "--> Starting server in port 8000..."
 	docker-compose up
+
+shell:
+	@echo "--> Staring shell..."
+	docker-compose run app python manage.py shell
+
+test:
+	@echo "--> Running tests..."
+	docker-compose run app pytest -s -v --disable-warnings
+	docker-compose down
