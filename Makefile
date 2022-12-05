@@ -55,5 +55,5 @@ test:
 test-no-cache:
 	docker-compose run app bash -c "rm -rf .pytest_cache"
 	@echo "--> Running tests..."
-	docker-compose run app $(path) pytest -s -v --disable-warnings
+	docker-compose run app pytest $(path) -s -v --disable-warnings
 	docker-compose down
