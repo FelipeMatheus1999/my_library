@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from rest_framework.exceptions import ValidationError
 
 from apps.book.models import BookModel
 from apps.user.models import UserModel
@@ -62,13 +61,3 @@ class ContractModel(BaseModel):
     class Meta:
         verbose_name = _("Contract")
         verbose_name_plural = _("Contracts")
-
-    def __str__(self):
-        if self.book:
-            return f"{self.user.username} - {self.book}"
-
-        return f"{self.user.username} - {self.package}"
-
-    def clean(self):
-        if not self.book or not self.package:
-            ValidationError("Your contract needs a book or a package registered.")
