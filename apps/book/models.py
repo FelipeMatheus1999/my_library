@@ -7,12 +7,12 @@ from utils.abstract_models.base_model import BaseModel
 class BookCategoryModel(BaseModel):
     name = models.CharField(verbose_name=_("Book Category Name"), max_length=255)
 
-    def __str__(self):
-        return f"{self.name}"
-
     class Meta:
         verbose_name = _("Book Category")
         verbose_name_plural = _("Book Categories")
+
+    def __str__(self):
+        return self.name
 
 
 class BookModel(BaseModel):
@@ -27,9 +27,9 @@ class BookModel(BaseModel):
         BookCategoryModel, verbose_name=_("Book Categories"), related_name="books"
     )
 
-    def __str__(self):
-        return f"({self.author} - {self.title})"
-
     class Meta:
         verbose_name = _("Book")
         verbose_name_plural = _("Books")
+
+    def __str__(self):
+        return f"({self.author} - {self.title})"

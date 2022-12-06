@@ -17,9 +17,9 @@ class UserModel(AbstractUser):
         BookModel, verbose_name=_("User Books"), related_name="users"
     )
 
-    def __str__(self):
-        return f"{self.username}"
-
     class Meta:
         verbose_name = _("User")
         verbose_name_plural = _("Users")
+
+    def __str__(self):
+        return self.username
