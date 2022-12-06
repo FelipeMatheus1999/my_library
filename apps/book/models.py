@@ -21,7 +21,7 @@ class BookModel(BaseModel):
     publishing_company = models.CharField(
         verbose_name=_("Book Publishing Company"), max_length=255
     )
-    price = models.SmallIntegerField(verbose_name=_("Book Price"))
+    price = models.FloatField(verbose_name=_("Book Price"))
     page_numbers = models.SmallIntegerField(verbose_name=_("Book Page Numbers"))
     categories = models.ManyToManyField(
         BookCategoryModel, verbose_name=_("Book Categories"), related_name="books"
