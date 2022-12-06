@@ -10,8 +10,7 @@ class TestUserModel:
         cls.model = UserModel
 
     def test_str(self):
-        mock_username = "Some Username"
-        user = UserModel(username=mock_username)
+        user = UserModel(username="Some Username")
 
         assert str(user) == "Some Username"
 

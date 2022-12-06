@@ -8,7 +8,7 @@ from utils.abstract_models.base_model import BaseModel
 
 
 class StoreModel(BaseModel):
-    name = models.CharField(verbose_name=_("Name"), max_length=255)
+    name = models.CharField(verbose_name=_("Store Name"), max_length=255)
 
     def __str__(self):
         return self.name
@@ -21,7 +21,7 @@ class StoreModel(BaseModel):
 class PackageModel(BaseModel):
     label = models.CharField(verbose_name=_("Label"), max_length=255)
     price = models.FloatField(verbose_name=_("Price"))
-    slug = models.SlugField()
+    slug = models.SlugField(verbose_name=_("Slug"))
     books = models.ManyToManyField(
         BookModel, verbose_name=_("Books"), related_name="packages"
     )
@@ -46,7 +46,7 @@ class ContractModel(BaseModel):
     )
     book = models.ForeignKey(
         BookModel,
-        verbose_name=_("Books"),
+        verbose_name=_("Book"),
         related_name="contracts",
         on_delete=models.CASCADE,
         null=True,

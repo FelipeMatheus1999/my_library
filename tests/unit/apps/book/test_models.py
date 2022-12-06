@@ -10,8 +10,7 @@ class TestBookCategoryModel:
         cls.model = BookCategoryModel
 
     def test_str(self):
-        mock_name = "Some Name"
-        category = BookCategoryModel(name=mock_name)
+        category = BookCategoryModel(name="Some Name")
 
         assert str(category) == "Some Name"
 
@@ -41,11 +40,9 @@ class TestBookModel:
         cls.model = BookModel
 
     def test_str(self):
-        mock_author = "Some Author"
-        mock_title = "Some Title"
-        book = BookModel(mock_author, mock_title)
+        book = BookModel(author="Some Author", title="Some Title")
 
-        assert str(book) == f"({book.author} - {book.title})"
+        assert str(book) == "(Some Author - Some Title)"
 
     def test_parent_class(self):
         assert issubclass(self.model, BaseModel)
