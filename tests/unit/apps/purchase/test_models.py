@@ -91,19 +91,11 @@ class TestContractModel:
     def setup_class(cls):
         cls.model = ContractModel
 
-    def test_str_with_package(self):
-        user = UserModel()
-        package = PackageModel()
-        contract = ContractModel(user=user, package=package)
+    def test_str(self):
+        mock_user = UserModel()
+        contract = ContractModel(user=mock_user)
 
-        assert str(contract) == f"{user.username} - {package}"
-
-    def test_str_with_book(self):
-        user = UserModel()
-        book = BookModel()
-        contract = ContractModel(user=user, book=book)
-
-        assert str(contract) == f"{user.username} - {book}"
+        assert str(contract) == f"Contract for {mock_user}"
 
     def test_parent_class(self):
         assert issubclass(self.model, BaseModel)

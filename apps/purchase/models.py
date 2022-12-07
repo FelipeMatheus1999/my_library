@@ -61,3 +61,6 @@ class ContractModel(BaseModel):
     class Meta:
         verbose_name = _("Contract")
         verbose_name_plural = _("Contracts")
+
+    def __str__(self):
+        return f"Contract for {self.user}"

@@ -77,7 +77,7 @@ class TestBookModel:
     def test_price_field(self):
         field = self.model._meta.get_field("price")
 
-        assert type(field) == models.SmallIntegerField
+        assert type(field) == models.FloatField
         assert field.verbose_name == "Book Price"
 
     def test_page_numbers_field(self):

@@ -49,7 +49,7 @@ shell:
 
 test:
 	@echo "--> Running tests..."
-	docker-compose run app $(path) pytest -s -v --disable-warnings
+	docker-compose run app pytest $(path) -s -v --disable-warnings
 	docker-compose down
 
 test-no-cache:
