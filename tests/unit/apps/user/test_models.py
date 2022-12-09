@@ -22,11 +22,11 @@ class TestUserModel:
     def test_meta_verbose_name_plural(self):
         self.model.verbose_name = "Users"
 
-    def test_is_premium_field(self):
-        field = self.model._meta.get_field("is_premium")
+    def test_is_verified_field(self):
+        field = self.model._meta.get_field("is_verified")
 
         assert type(field) == models.BooleanField
-        assert field.verbose_name == "Is Premium"
+        assert field.verbose_name == "User Is Verified"
         assert field.default is False
 
     def test_first_name_field(self):
@@ -50,5 +50,21 @@ class TestUserModel:
         assert field.verbose_name == "Email Address"
         assert field.unique is True
 
+    def test_birth_date_field(self):
+        field = self.model._meta.get_field("birth_date")
+
+        assert type(field) == models.DateTimeField
+        assert field.verbose_name == "Birth Date"
+        assert field.null is True
+        assert field.blank is True
+
+    def test_country_field(self):
+        field = self.model._meta.get_field("country")
+
+        assert type(field) == models.CharField
+        assert field.verbose_name == "User Country"
+        assert field.null is True
+        assert field.blank is True
+
     def test_length_field(self):
-        assert len(self.model._meta.fields) == 12
+        assert len(self.model._meta.fields) == 14
