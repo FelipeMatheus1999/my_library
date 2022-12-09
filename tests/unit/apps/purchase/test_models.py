@@ -1,7 +1,7 @@
 from django.db import models
 
 from apps.book.models import BookModel
-from apps.purchase.models import ContractModel, PackageModel, StoreModel
+from apps.purchase.models import PackageModel, PurchaseModel, StoreModel
 from apps.user.models import UserModel
 from utils.abstract_models.base_model import BaseModel
 
@@ -31,6 +31,11 @@ class TestStoreModel:
         assert type(field) == models.CharField
         assert field.verbose_name == "Store Name"
         assert field.max_length == 255
+        assert field.choices == (
+            ("dummy", "Dummy"),
+            ("apple", "Apple"),
+            ("google", "google"),
+        )
 
     def test_length_fields(self):
         assert len(self.model._meta.fields) == 5
@@ -86,31 +91,25 @@ class TestPackageModel:
         assert len(self.model._meta.fields) == 7
 
 
-class TestContractModel:
+class TestPurchaseModel:
     @classmethod
     def setup_class(cls):
-        cls.model = ContractModel
+        cls.model = PurchaseModel
 
     def test_str(self):
-        mock_user = UserModel()
-        contract = ContractModel(user=mock_user)
+        user = UserModel()
+        contract = PurchaseModel(user=user)
 
-        assert str(contract) == f"Contract for {mock_user}"
+        assert str(contract) == f"Purchase from {user}"
 
     def test_parent_class(self):
         assert issubclass(self.model, BaseModel)
 
     def test_verbose_name(self):
-        assert self.model._meta.verbose_name == "Contract"
+        assert self.model._meta.verbose_name == "Purchase"
 
     def test_verbose_name_plural(self):
-        assert self.model._meta.verbose_name_plural == "Contracts"
-
-    def test_receipt_field(self):
-        field = self.model._meta.get_field("receipt")
-
-        assert type(field) == models.TextField
-        assert field.verbose_name == "Receipt"
+        assert self.model._meta.verbose_name_plural == "Purchases"
 
     def test_package_field(self):
         field = self.model._meta.get_field("package")
@@ -142,6 +141,18 @@ class TestContractModel:
         assert field.verbose_name == "User"
         assert field.remote_field.related_name == "contracts"
         assert field.remote_field.on_delete.__name__ == "CASCADE"
+
+    def test_status_field(self):
+        field = self.model._meta.get_field("status")
+
+        assert type(field) == models.CharField
+        assert field.verbose_name == "Purchase Status"
+        assert field.choices == (
+            ("pending", "Pending"),
+            ("approved", "approve"),
+            ("refused", "Refused"),
+        )
+        assert field.default == "pending"
 
     def test_length_fields(self):
         assert len(self.model._meta.fields) == 8

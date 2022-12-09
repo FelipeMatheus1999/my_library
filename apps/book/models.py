@@ -22,7 +22,6 @@ class BookModel(BaseModel):
         verbose_name=_("Book Publishing Company"), max_length=255
     )
     price = models.FloatField(verbose_name=_("Book Price"))
-    page_numbers = models.SmallIntegerField(verbose_name=_("Book Page Numbers"))
     categories = models.ManyToManyField(
         BookCategoryModel, verbose_name=_("Book Categories"), related_name="books"
     )
@@ -33,3 +32,21 @@ class BookModel(BaseModel):
 
     def __str__(self):
         return f"({self.author} - {self.title})"
+
+
+class PageModel(BaseModel):
+    number = models.SmallIntegerField(verbose_name=_("Page Number"))
+    content = models.TextField(verbose_name=_("Page Content"))
+    book = models.ForeignKey(
+        BookModel,
+        verbose_name=_("Book Pages"),
+        related_name="pages",
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        verbose_name = "Page"
+        verbose_name_plural = "Pages"
+
+    def __str__(self):
+        return f"Book page {self.number}"

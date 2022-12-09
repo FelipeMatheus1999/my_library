@@ -6,17 +6,6 @@ from apps.user.models import UserModel
 from utils.abstract_models.base_model import BaseModel
 
 
-class StoreModel(BaseModel):
-    name = models.CharField(verbose_name=_("Store Name"), max_length=255)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = _("Store")
-        verbose_name_plural = _("Stores")
-
-
 class PackageModel(BaseModel):
     label = models.CharField(verbose_name=_("Label"), max_length=255)
     price = models.FloatField(verbose_name=_("Price"))
@@ -33,8 +22,32 @@ class PackageModel(BaseModel):
         return self.slug
 
 
-class ContractModel(BaseModel):
-    receipt = models.TextField(verbose_name=_("Receipt"))
+class StoreModel(BaseModel):
+    STORE_CHOICES = (
+        ("dummy", "Dummy"),
+        ("apple", "Apple"),
+        ("google", "google"),
+    )
+
+    name = models.CharField(
+        verbose_name=_("Store Name"), max_length=255, choices=STORE_CHOICES
+    )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _("Store")
+        verbose_name_plural = _("Stores")
+
+
+class PurchaseModel(BaseModel):
+    STATUS_CHOICES = (
+        ("pending", "Pending"),
+        ("approved", "approve"),
+        ("refused", "Refused"),
+    )
+
     package = models.ForeignKey(
         PackageModel,
         verbose_name=_("Package"),
@@ -57,10 +70,16 @@ class ContractModel(BaseModel):
         related_name="contracts",
         on_delete=models.CASCADE,
     )
+    status = models.CharField(
+        verbose_name=_("Purchase Status"),
+        choices=STATUS_CHOICES,
+        default="pending",
+        max_length=100,
+    )
 
     class Meta:
-        verbose_name = _("Contract")
-        verbose_name_plural = _("Contracts")
+        verbose_name = _("Purchase")
+        verbose_name_plural = _("Purchases")
 
     def __str__(self):
-        return f"Contract for {self.user}"
+        return f"Purchase from {self.user}"

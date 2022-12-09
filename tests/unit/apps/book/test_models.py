@@ -1,6 +1,6 @@
 from django.db import models
 
-from apps.book.models import BookCategoryModel, BookModel
+from apps.book.models import BookCategoryModel, BookModel, PageModel
 from utils.abstract_models.base_model import BaseModel
 
 
@@ -80,12 +80,6 @@ class TestBookModel:
         assert type(field) == models.FloatField
         assert field.verbose_name == "Book Price"
 
-    def test_page_numbers_field(self):
-        field = self.model._meta.get_field("page_numbers")
-
-        assert type(field) == models.SmallIntegerField
-        assert field.verbose_name == "Book Page Numbers"
-
     def test_categories_field(self):
         field = self.model._meta.get_field("categories")
 
@@ -95,4 +89,48 @@ class TestBookModel:
         assert field.remote_field.related_name == "books"
 
     def test_length_fields(self):
-        assert len(self.model._meta.fields) == 9
+        assert len(self.model._meta.fields) == 8
+
+
+class TestPageModel:
+    @classmethod
+    def setup_class(cls):
+        cls.model = PageModel
+
+    def test_str(self):
+        page = PageModel(number=1)
+
+        assert str(page) == "Book page 1"
+
+    def test_parent_class(self):
+        assert issubclass(self.model, BaseModel)
+
+    def test_verbose_name(self):
+        assert self.model._meta.verbose_name == "Page"
+
+    def test_verbose_name_plural(self):
+        assert self.model._meta.verbose_name_plural == "Pages"
+
+    def test_number_field(self):
+        field = self.model._meta.get_field("number")
+
+        assert type(field) == models.SmallIntegerField
+        assert field.verbose_name == "Page Number"
+
+    def test_content_field(self):
+        field = self.model._meta.get_field("content")
+
+        assert type(field) == models.TextField
+        assert field.verbose_name == "Page Content"
+
+    def test_book_field(self):
+        field = self.model._meta.get_field("book")
+
+        assert type(field) == models.ForeignKey
+        assert field.related_model == BookModel
+        assert field.verbose_name == "Book Pages"
+        assert field.remote_field.related_name == "pages"
+        assert field.remote_field.on_delete.__name__ == "CASCADE"
+
+    def test_length_fields(self):
+        assert len(self.model._meta.fields) == 7
